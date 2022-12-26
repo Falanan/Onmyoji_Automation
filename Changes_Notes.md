@@ -1,8 +1,8 @@
-# 12.24
+# 22.12.24
  - 完成了同一画面两个按钮识别的理论分析，对于图像识别的理论分析现在还剩下对于outliers的处理。现在的对于outliers的处理思路是data clusting（DBSCAN）
  - Remains: 1. 完善图像识别 2. 获取系统截屏 3.模拟鼠标点击 4.多线程 5.中断
 
-# 12.25
+# 22.12.25
 - 新增文件：get_screen_shot.ipynb - Test get screenshot function
 - New File: get_test_img.ipynb - get new test images(screenshots)
 - New Folder: testimg - Add 23*2 images to test the item detection function
