@@ -14,4 +14,9 @@
 - I think i caught cold today. I feels a little bit unconfortable today. So not that too much progress
 - Pack button detection into a class
 
-- Remains: 1. Improve item detection method(test with new screenshots in testimg folder) 2. Simluate mouse click 3. Multi-thread 4. keybord interruption 5. Pack the "get screenshot" function into a method.
+- Remains: 1. Improve item detection method(test with new screenshots in testimg folder) 2. Simluate mouse click 3. Multi-thread 4. keybord interruption 5. Pack the "get screenshot" step into a function.
+
+# 12.28
+- I think the challenge button detection analysis finished. The result is pretty good. Oh, Actually, one thing still remaining, determine the button size based on different resulations.
+
+- Remains: 1. Determine the button size based on different resulations. 2. Success or Fail detection. 3. Multi-thread 4. Keybord interruption. 5.Pack the "get screenshot" steps into a function.
