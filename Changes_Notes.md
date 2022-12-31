@@ -20,3 +20,9 @@
 - I think the challenge button detection analysis finished. The result is pretty good. Oh, Actually, one thing still remaining, determine the button size based on different resulations.
 
 - Remains: 1. Determine the button size based on different resulations. 2. Success or Fail detection. 3. Multi-thread 4. Keybord interruption. 5.Pack the "get screenshot" steps into a function.
+
+# 12.30
+ - Sad thing happened.
+ - Start working with multi threading
+ - Remains: ......
+
