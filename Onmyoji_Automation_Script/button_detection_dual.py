@@ -1,14 +1,14 @@
 import matplotlib.pyplot as plt
 import cv2 as cv
 import numpy as np
-import pyautogui
+# import pyautogui
 import threading
 import math
 import time
 
 class buttonDetection(threading.Thread):
-    def __init__(self):
-        super.__init__(self)
+    def __init__(self, *args, **kwargs):
+        super(buttonDetection, self).__init__(*args, *kwargs)
         self.img_list = []
         self.methods = ['cv.TM_CCOEFF', 
                         'cv.TM_CCOEFF_NORMED', 
@@ -16,8 +16,13 @@ class buttonDetection(threading.Thread):
                         'cv.TM_CCORR_NORMED', 
                         'cv.TM_SQDIFF', 
                         'cv.TM_SQDIFF_NORMED']
+        img_t = cv.imread("Onmyoji_Automation_Script/pics/03-T.jpg")
+        img_t = cv.cvtColor(img_t, cv.COLOR_BGR2RGB)
+        img_t = cv.resize(img_t, [128, 128])
+        self.template = img_t
 
-
+    def setImage(self, orig_img):
+        self.img_list.append(orig_img)
 
     def highlight(self, R, T, I, use_max=True):
         """
@@ -92,13 +97,13 @@ class buttonDetection(threading.Thread):
             pI.append(G)
         return pI
 
-    def get_relative_size(self, orig_img):
-        img_shape = orig_img.shape
+    def get_relative_size(self, img_shape):
+        # img_shape = orig_img.shape
         temp_box_width = img_shape[1] / 672.0
         width = math.floor(temp_box_width * 64)
         return width
 
-    def find_highest_match_box(self, bbox_list):
+    def find_highest_match_box(self, bbox_list, img_shape):
         '''
         This function receive a match box list, example [[0,0], [0,1]]
         Then using data clusting(kind of) DBSCAN to find the most possible matching place
@@ -174,8 +179,16 @@ class buttonDetection(threading.Thread):
 
         # return [int(x_avg), int(y_avg)]
         if x_avg == 0 or y_avg == 0:
-            return [0, 0]
-        return [x_avg, y_avg]
+            # x_avg = 0
+            # y_avg = 0
+            return[0, 0, 1, 1]
+
+        if x_avg < img_shape[1] / 2 or y_avg < img_shape[0] / 2:
+            # x_avg = 0
+            # y_avg = 0
+            return [0, 0, 1, 1]
+
+        return [x_avg, y_avg, self.get_relative_size(img_shape), self.get_relative_size(img_shape)]
 
 
     def find_sign(self, orig_img, orig_template):
@@ -252,10 +265,16 @@ class buttonDetection(threading.Thread):
                 # print(match_box)
                 match_box_list.append([match_box[0], match_box[1]])
 
-        bbox = self.find_highest_match_box(match_box_list)
+        bbox = self.find_highest_match_box(match_box_list, orig_img.shape)
         # print(bbox)
-        bbox.append(self.get_relative_size(orig_img_copy))
-        bbox.append(self.get_relative_size(orig_img_copy))
-        fb = draw_rect(orig_img, bbox)
-        # plt.imshow(fb)
-        return fb
+        # bbox.append(self.get_relative_size(orig_img_copy))
+        # bbox.append(self.get_relative_size(orig_img_copy))
+        return bbox
+
+
+    def run(self):
+        while True:
+            if len(self.img_list) != 0:
+                pos = self.find_sign(self.img_list[0], self.template)
+                del self.img_list[0]
+                print("Challenge Button: ",pos)

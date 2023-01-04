@@ -26,3 +26,6 @@
  - Start working with multi threading
  - Remains: ......
 
+# 23.01.03
+- Start working with multi threads
+- Rearrange paths

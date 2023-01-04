@@ -41,15 +41,22 @@ class printLengthThread(threading.Thread):
 
 if __name__ == "__main__":
 
-    screenshots_list = []
+    # screenshots_list = []
 
-    sc_thread = getScreenShotThread()
-    prt_thread = printLengthThread()
+    # sc_thread = getScreenShotThread()
+    # prt_thread = printLengthThread()
 
-    sc_thread.start()
-    prt_thread.start()
+    # sc_thread.start()
+    # prt_thread.start()
 
     # time.sleep(200)
     # exit(0)
+
+    # list1 = [1, 2, 3]
+    # print(list1)
+    # del list1[0]
+    # print(list1)
+
+    img = cv.imread("Onmyoji_Automation_Script/pics/01-dual.png")
 
     pass
