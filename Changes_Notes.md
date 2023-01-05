@@ -29,3 +29,7 @@
 # 23.01.03
 - Start working with multi threads
 - Rearrange paths
+
+# 23.01.04
+- step futher with multi thread
+- Remains: find value sign, and send the click position to another thread

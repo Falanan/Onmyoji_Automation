@@ -6,9 +6,9 @@ import threading
 import math
 import time
 
-class buttonDetection(threading.Thread):
+class buttonDetectionDual(threading.Thread):
     def __init__(self, *args, **kwargs):
-        super(buttonDetection, self).__init__(*args, *kwargs)
+        super(buttonDetectionDual, self).__init__(*args, *kwargs)
         self.img_list = []
         self.methods = ['cv.TM_CCOEFF', 
                         'cv.TM_CCOEFF_NORMED', 
@@ -19,7 +19,8 @@ class buttonDetection(threading.Thread):
         img_t = cv.imread("Onmyoji_Automation_Script/pics/03-T.jpg")
         img_t = cv.cvtColor(img_t, cv.COLOR_BGR2RGB)
         img_t = cv.resize(img_t, [128, 128])
-        self.template = img_t
+        sq_temp_img, nlevels = self.make_square(img_t)
+        self.template_ds = self.gen_down_sample(sq_temp_img, nlevels-4) # generate down sampling for template
 
     def setImage(self, orig_img):
         self.img_list.append(orig_img)
@@ -143,18 +144,22 @@ class buttonDetection(threading.Thread):
    
         x_list = []
         for key in x_dict.keys():
+            tot = 0
             for i in range(key - 3, key + 3):
-                if i in x_dict and (x_dict[i] + x_dict[key] > 10):
-                    x_list.append(key)
+                if i in x_dict:
+                    tot = tot + x_dict[i]
+            if tot > 10:
+                x_list.append(key)
 
         y_list = []
         for key in y_dict.keys():
+            tot = 0
             # print("testNode0:", key)
             for i in range(key - 3, key + 3):
-                # print("testNode1", i)
-                if i in y_dict and (y_dict[i] + y_dict[key] > 10):
-                    # print("testNode2", key)
-                    y_list.append(key)
+                if i in y_dict:
+                    tot = tot + y_dict[i]
+            if tot > 10:
+                y_list.append(key)
 
         # print("x_list:", x_list)
         # print("y_list:", y_list)
@@ -191,7 +196,7 @@ class buttonDetection(threading.Thread):
         return [x_avg, y_avg, self.get_relative_size(img_shape), self.get_relative_size(img_shape)]
 
 
-    def find_sign(self, orig_img, orig_template):
+    def find_sign(self, orig_img):
         '''
         This function is used to find the position of the template in a image
         The return value should be [x_pos, y_pos, x_width, y_height]
@@ -201,19 +206,16 @@ class buttonDetection(threading.Thread):
         sq_org_img, nlevels = self.make_square(orig_img_copy)
         gpI = self.gen_gaussian_pyramid(sq_org_img, nlevels) # generate gaussian pytamid for the original image
 
-        sq_temp_img, nlevels = self.make_square(orig_template)
-        template_ds = self.gen_down_sample(sq_temp_img, nlevels-4) # generate down sampling for template
-
         match_box_list = []
 
-        for template in template_ds: # match each template in the down sampling list
+        for template in self.template_ds: # match each template in the down sampling list
             sq_temp_img, nlevels = self.make_square(template)
             gpt = self.gen_gaussian_pyramid(sq_temp_img, nlevels) # for each down sampled template generate gaussian pyramid
-            for template in gpt: # loop through every pyramid image in the list
+            for template2 in gpt: # loop through every pyramid image in the list
                 useful_match = []
                 for item in gpI: # for each image in the gaussian pyramid list of original image
-                    if template.shape[0] <= item.shape[0] and template.shape[1] <= item.shape[1]:
-                        R_ = cv.matchTemplate(template, item, eval(self.methods[3])) # match the tamplate
+                    if template2.shape[0] <= item.shape[0] and template2.shape[1] <= item.shape[1]:
+                        R_ = cv.matchTemplate(template2, item, eval(self.methods[3])) # match the tamplate
                         useful_match.append(R_)
 
                 # print(useful_match)
@@ -266,15 +268,12 @@ class buttonDetection(threading.Thread):
                 match_box_list.append([match_box[0], match_box[1]])
 
         bbox = self.find_highest_match_box(match_box_list, orig_img.shape)
-        # print(bbox)
-        # bbox.append(self.get_relative_size(orig_img_copy))
-        # bbox.append(self.get_relative_size(orig_img_copy))
         return bbox
 
 
     def run(self):
         while True:
             if len(self.img_list) != 0:
-                pos = self.find_sign(self.img_list[0], self.template)
+                pos = self.find_sign(self.img_list[0])
                 del self.img_list[0]
                 print("Challenge Button: ",pos)
