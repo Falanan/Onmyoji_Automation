@@ -5,7 +5,6 @@ import numpy as np
 import threading
 import math
 import time
-
 class buttonDetectionDual(threading.Thread):
     def __init__(self, *args, **kwargs):
         super(buttonDetectionDual, self).__init__(*args, *kwargs)
@@ -20,15 +19,52 @@ class buttonDetectionDual(threading.Thread):
         img_t = cv.cvtColor(img_t, cv.COLOR_BGR2RGB)
         img_t = cv.resize(img_t, [128, 128])
         sq_temp_img, nlevels = self.make_square(img_t)
-        template_ds = self.gen_down_sample(sq_temp_img, nlevels-4) # generate down sampling for template
-        self.gpt_list = []
-        for template in template_ds:
-            sq_temp_img, nlevels = self.make_square(template)
-            gpt = self.gen_gaussian_pyramid(sq_temp_img, nlevels)
-            self.gpt_list.append(gpt)
+        self.template_ds = self.gen_down_sample(sq_temp_img, nlevels-2) # generate down sampling for template
+        # self.gpt_list = []
+        # for template in template_ds:
+        #     sq_temp_img, nlevels = self.make_square(template)
+        #     gpt = self.gen_gaussian_pyramid(sq_temp_img, nlevels)
+        #     self.gpt_list.append(gpt)
+
+    def highlight(self, R, T, I, use_max=True):
+        """
+        Finds the location of maximum (or minimum) matching response, and 
+        draws a rectangle on the image around this location.  The
+        size of the rectangle is determined by template T.
+        
+        Returns an image with the drawn rectangle.  Also returns the loc and
+        the value (maximum or minimum as the case may be).  The original image
+        remains unchanged.
+        """
+        
+        W, H = I.shape[0], I.shape[1]
+        w, h = T.shape[0], T.shape[1]
+        wr, hg = R.shape[0], R.shape[1]
+            
+        min_val, max_val, min_loc, max_loc = cv.minMaxLoc(R)
+        loc = max_loc if use_max else min_loc
+        val = max_val if use_max else min_val
+        
+        loc1 = loc + np.array([h//2, w//2])               # Size of R is different from I 
+        tl = loc1 - np.array([h//2, w//2])
+        br = loc1 + np.array([h//2, w//2])
+        I_ = np.copy(I)
+        c = (1.0, 0, 0) if I_.dtype == 'float32' else (255, 0, 0)
+        cv.rectangle(I_, tuple(tl), tuple(br), c, 4)
+        return I_, loc, val
+            
 
     def setImage(self, orig_img):
         self.img_list.append(orig_img)
+
+    def draw_rect(self, I, bbox):
+        '''
+        This function is used to draw the final match box
+        '''
+        I_ = np.copy(I)
+        c = (1.0, 0, 0) if I_.dtype == 'float32' else (255, 0, 0)
+        cv.rectangle(I_, bbox, c, 3)
+        return I_
 
     def highlight(self, R, T, I, use_max=True):
         """
@@ -153,7 +189,7 @@ class buttonDetectionDual(threading.Thread):
             for i in range(key - 3, key + 3):
                 if i in x_dict:
                     tot = tot + x_dict[i]
-            if tot > 10:
+            if tot >= 3:
                 x_list.append(key)
 
         y_list = []
@@ -163,7 +199,7 @@ class buttonDetectionDual(threading.Thread):
             for i in range(key - 3, key + 3):
                 if i in y_dict:
                     tot = tot + y_dict[i]
-            if tot > 10:
+            if tot >= 3:
                 y_list.append(key)
 
         # print("x_list:", x_list)
@@ -213,66 +249,72 @@ class buttonDetectionDual(threading.Thread):
 
         match_box_list = []
 
-        for gpt in self.gpt_list: # match each template in the down sampling list
-            # sq_temp_img, nlevels = self.make_square(template)
-            # gpt = self.gen_gaussian_pyramid(sq_temp_img, nlevels) # for each down sampled template generate gaussian pyramid
-            for template in gpt: # loop through every pyramid image in the list
-                useful_match = []
-                for item in gpI: # for each image in the gaussian pyramid list of original image
-                    if template.shape[0] <= item.shape[0] and template.shape[1] <= item.shape[1]:
-                        R_ = cv.matchTemplate(template, item, eval(self.methods[3])) # match the tamplate
-                        useful_match.append(R_)
+        for template in self.template_ds: # match each template in the down sampling list
+        # for template in gpt: # loop through every pyramid image in the list
+            useful_match = []
+            for item in gpI: # for each image in the gaussian pyramid list of original image
+                if template.shape[0] <= item.shape[0] and template.shape[1] <= item.shape[1]:
+                    R_ = cv.matchTemplate(template, item, eval(self.methods[3])) # match the tamplate
+                    useful_match.append(R_)
 
-                # print(useful_match)
-                R_val = np.empty([len(useful_match), 3])
-                # print(R_val)
+            # print(useful_match)
+            R_val = np.empty([len(useful_match), 3])
+            # print(R_val)
 
-                # highlighted_list = []
-                # for i in range(len(useful_match)):
-                #     R_ = useful_match[i]
-                #     T_ = template
-                #     I_ = gpI[i]
+            # highlighted_list = []
+            # for i in range(len(useful_match)):
+            #     R_ = useful_match[i]
+            #     T_ = template
+            #     I_ = gpI[i]
 
-                #     H_, loc, val = highlight(R_, T_, I_)
-                #     highlighted_list.append(H_)
+            #     H_, loc, val = self.highlight(R_, T_, I_)
+            #     highlighted_list.append(H_)
 
-                #     R_val[i, : ] = np.array([val, loc[0], loc[1]])
+            #     R_val[i, : ] = np.array([val, loc[0], loc[1]])
 
-                for i in range(len(useful_match)):
-                    R_ = useful_match[i]
-                    T_ = template
-                    I_ = gpI[i]
+            for i in range(len(useful_match)):
+                R_ = useful_match[i]
+                T_ = template
+                I_ = gpI[i]
 
-                    H_, loc, val = self.highlight(R_, T_, I_)
-                    # highlighted_list.append(H_)
+                H_, loc, val = self.highlight(R_, T_, I_)
 
-                    R_val[i, : ] = np.array([val, loc[0], loc[1]])
+                R_val[i, : ] = np.array([val, loc[0], loc[1]])
 
 
 
-                np.set_printoptions(suppress=True)
-                # print(R_val)
+            np.set_printoptions(suppress=True)
+            # print(R_val)
 
-                highest_match_pos = 0
-                for index in range(0, len(R_val)):
-                    # print(R_val[index])
-                    if R_val[index][0] > R_val[highest_match_pos][0]:
-                        highest_match_pos = index
-                # print(highest_match_pos)
+            highest_match_pos = 0
+            for index in range(0, len(R_val)):
+                # print(R_val[index])
+                if R_val[index][0] > R_val[highest_match_pos][0]:
+                    highest_match_pos = index
+            # print(highest_match_pos)
 
-                highest_match_box = R_val[highest_match_pos]
-                # print(highest_match_box)
+            highest_match_box = R_val[highest_match_pos]
+            # print(highest_match_box)
 
-                highest_match_box[1] = highest_match_box[1] * np.power(2, highest_match_pos)
-                highest_match_box[2] = highest_match_box[2] * np.power(2, highest_match_pos)
-                # print(highest_match_box)
+            highest_match_box[1] = highest_match_box[1] * np.power(2, highest_match_pos)
+            highest_match_box[2] = highest_match_box[2] * np.power(2, highest_match_pos)
+            # print(highest_match_box)
 
 
-                match_box = np.array([highest_match_box[1], highest_match_box[2], template.shape[0], template.shape[1]], dtype=np.int32)
-                # print(match_box)
-                match_box_list.append([match_box[0], match_box[1]])
+            match_box = np.array([highest_match_box[1], highest_match_box[2], template.shape[0], template.shape[1]], dtype=np.int32)
+            # print(match_box)
+            match_box_list.append([match_box[0], match_box[1]])
+
+            # fig, axs = plt.subplots(1, len(highlighted_list), figsize=(15,5))
+            # for idx, ax in enumerate(axs):
+            #     # ax.set_xticks([])
+            #     # ax.set_yticks([])
+            #     ax.imshow(highlighted_list[idx],cmap="gray")
 
         bbox = self.find_highest_match_box(match_box_list, orig_img.shape)
+        # fb = self.draw_rect(orig_img_copy, bbox)
+        # print(bbox)
+        # return fb
         return bbox
 
 
