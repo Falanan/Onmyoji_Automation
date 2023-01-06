@@ -33,3 +33,7 @@
 # 23.01.04
 - step futher with multi thread
 - Remains: find value sign, and send the click position to another thread
+
+# 23.01.05
+- Finish Treasure sign detection
+- keep working with multi thread

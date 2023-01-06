@@ -57,6 +57,15 @@ if __name__ == "__main__":
     # del list1[0]
     # print(list1)
 
-    img = cv.imread("Onmyoji_Automation_Script/pics/01-dual.png")
+    # img = cv.imread("Onmyoji_Automation_Script/pics/01-dual.png")
+
+    t1 = time.time()
+    print(t1)
+    time.sleep(3)
+    t2 = time.time()
+    print(t2)
+    print(t2-t1)
+
+
 
     pass

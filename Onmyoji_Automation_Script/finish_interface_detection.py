@@ -296,6 +296,7 @@ class finishInterfaceDetection(threading.Thread):
     def run(self):
         while True:
             if len(self.img_list) != 0:
-                pos = self.find_sign(self.img_list[0])
+                pos = self.find_sign(self.img_list[0][1])
+                print("Finish Interface: ",pos, "Orig pos:", self.img_list[0][0])
                 del self.img_list[0]
-                print("Finish Interface: ",pos)
+                
