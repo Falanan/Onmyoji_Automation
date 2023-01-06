@@ -20,12 +20,8 @@ class buttonDetectionDual(threading.Thread):
         img_t = cv.cvtColor(img_t, cv.COLOR_BGR2RGB)
         img_t = cv.resize(img_t, [128, 128])
         sq_temp_img, nlevels = self.make_square(img_t)
-        template_ds = self.gen_down_sample(sq_temp_img, nlevels-4) # generate down sampling for template
-        self.gpt_list = []
-        for template in template_ds:
-            sq_temp_img, nlevels = self.make_square(template)
-            gpt = self.gen_gaussian_pyramid(sq_temp_img, nlevels)
-            self.gpt_list.append(gpt)
+        self.template_ds = self.gen_down_sample(sq_temp_img, nlevels-4) # generate down sampling for template
+
 
     def setImage(self, orig_img):
         self.img_list.append(orig_img)
@@ -213,14 +209,14 @@ class buttonDetectionDual(threading.Thread):
 
         match_box_list = []
 
-        for gpt in self.gpt_list: # match each template in the down sampling list
-            # sq_temp_img, nlevels = self.make_square(template)
-            # gpt = self.gen_gaussian_pyramid(sq_temp_img, nlevels) # for each down sampled template generate gaussian pyramid
-            for template in gpt: # loop through every pyramid image in the list
+        for template in self.template_ds: # match each template in the down sampling list
+            sq_temp_img, nlevels = self.make_square(template)
+            gpt = self.gen_gaussian_pyramid(sq_temp_img, nlevels) # for each down sampled template generate gaussian pyramid
+            for template2 in gpt: # loop through every pyramid image in the list
                 useful_match = []
                 for item in gpI: # for each image in the gaussian pyramid list of original image
-                    if template.shape[0] <= item.shape[0] and template.shape[1] <= item.shape[1]:
-                        R_ = cv.matchTemplate(template, item, eval(self.methods[3])) # match the tamplate
+                    if template2.shape[0] <= item.shape[0] and template2.shape[1] <= item.shape[1]:
+                        R_ = cv.matchTemplate(template2, item, eval(self.methods[3])) # match the tamplate
                         useful_match.append(R_)
 
                 # print(useful_match)
