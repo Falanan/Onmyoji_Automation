@@ -25,7 +25,7 @@ class get_screen_shot(threading.Thread):
             img = cv.imread("Onmyoji_Automation_Script/testimg/03-t-"+str(rand_pos)+"-1.jpg")
             img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
             for threads in thread_list:
-                threads.setImage([rand_pos, img])
+                threads.setImage([[0, 0], img])
             time.sleep(5)
             # t1 = time.time()
             # t2 = time.time()

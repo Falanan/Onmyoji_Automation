@@ -5,6 +5,9 @@ import numpy as np
 import threading
 import math
 import time
+import random
+
+
 class buttonDetectionDual(threading.Thread):
     def __init__(self, click_list, *args, **kwargs):
         super(buttonDetectionDual, self).__init__(*args, *kwargs)
@@ -318,11 +321,17 @@ class buttonDetectionDual(threading.Thread):
         # return fb
         return bbox
 
+    def findClickPos(self, orig, bbox):
+        x_pos = random.randint(orig[0]+bbox[0], orig[0]+bbox[0]+bbox[2]-5)
+        y_pos = random.randint(orig[1]+bbox[1], orig[1]+bbox[1]+bbox[3]-5)
+        return [x_pos, y_pos]
 
     def run(self):
         while True:
             if len(self.img_list) != 0:
                 pos = self.find_sign(self.img_list[0][1])
                 print("Challenge Button: ",pos, "Orig pos:", self.img_list[0][0])
+                if pos[2] != 1 and pos[3] != 1:
+                    self.click_list.append(self.findClickPos(self.img_list[0][0], pos))
+                # self.click_list.append(pos)
                 del self.img_list[0]
-                self.click_list.append(pos)
