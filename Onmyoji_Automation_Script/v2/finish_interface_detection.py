@@ -8,7 +8,7 @@ import time
 
 
 class finishInterfaceDetection(threading.Thread):
-    def __init__(self, temp_path, *args, **kwargs):
+    def __init__(self, temp_path,click_list, *args, **kwargs):
         super(finishInterfaceDetection, self).__init__(*args, *kwargs)
         self.img_list = []
         self.methods = ['cv.TM_CCOEFF', 
@@ -19,6 +19,7 @@ class finishInterfaceDetection(threading.Thread):
                 'cv.TM_SQDIFF_NORMED']
         
         # img_t = cv.imread("Onmyoji_Automation_Script/pics/06-T.png")
+        self.click_list = click_list
         img_t = cv.imread(temp_path)
         img_t = cv.cvtColor(img_t, cv.COLOR_BGR2RGB)
         for col in range(0, img_t.shape[1]):
@@ -299,4 +300,5 @@ class finishInterfaceDetection(threading.Thread):
                 pos = self.find_sign(self.img_list[0][1])
                 print("Finish Interface: ",pos, "Orig pos:", self.img_list[0][0])
                 del self.img_list[0]
+                self.click_list.append(pos)
                 

@@ -6,7 +6,7 @@ import threading
 import math
 import time
 class buttonDetectionDual(threading.Thread):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, click_list, *args, **kwargs):
         super(buttonDetectionDual, self).__init__(*args, *kwargs)
         self.img_list = []
         self.methods = ['cv.TM_CCOEFF', 
@@ -15,6 +15,7 @@ class buttonDetectionDual(threading.Thread):
                         'cv.TM_CCORR_NORMED', 
                         'cv.TM_SQDIFF', 
                         'cv.TM_SQDIFF_NORMED']
+        self.click_list = click_list
         img_t = cv.imread("Onmyoji_Automation_Script/pics/03-T.jpg")
         img_t = cv.cvtColor(img_t, cv.COLOR_BGR2RGB)
         img_t = cv.resize(img_t, [128, 128])
@@ -324,3 +325,4 @@ class buttonDetectionDual(threading.Thread):
                 pos = self.find_sign(self.img_list[0][1])
                 print("Challenge Button: ",pos, "Orig pos:", self.img_list[0][0])
                 del self.img_list[0]
+                self.click_list.append(pos)

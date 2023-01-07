@@ -26,13 +26,32 @@ class get_screen_shot(threading.Thread):
             img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
             for threads in thread_list:
                 threads.setImage([rand_pos, img])
-            # time.sleep(5)
-            t1 = time.time()
-            t2 = time.time()
+            time.sleep(5)
+            # t1 = time.time()
+            # t2 = time.time()
 
-            while (t2 - t1) <= 10.0:
-                t2 = time.time()
+            # while (t2 - t1) <= 10.0:
+            #     t2 = time.time()
 
+class mouseClick(threading.Thread):
+    # global click_list
+    def __init__(self, *args, **kwargs):
+        super(mouseClick, self).__init__(*args, *kwargs)
+        self.click_list = []
+
+    def setPosition(self, bbox):
+        global click_list
+        click_list.append(bbox)
+
+    def run(self):
+        global click_list
+        while True:
+            if len(click_list) != 0:
+                print("Click Position:", click_list[0])
+                del click_list[0]
+
+
+    pass
 
 
 
@@ -43,15 +62,20 @@ class get_screen_shot(threading.Thread):
 if __name__ == "__main__":
     
     thread_list = []
-    thread1 = buttonDetectionDual()
-    thread_list.append(thread1)
-    # thread1.start()
-    thread2 = finishInterfaceDetection("Onmyoji_Automation_Script/pics/06-T.png")
-    thread_list.append(thread2)
-    thread3 = finishInterfaceDetection("Onmyoji_Automation_Script/pics/05-T.png")
-    thread_list.append(thread3)
-    thread4 = treasureSignDetection()
-    thread_list.append(thread4)
+
+    click_list = []
+
+    mouse_thread = mouseClick()
+    mouse_thread.start()
+
+    button_thread = buttonDetectionDual(click_list)
+    thread_list.append(button_thread)
+    finish_interface_thread = finishInterfaceDetection("Onmyoji_Automation_Script/pics/06-T.png", click_list)
+    thread_list.append(finish_interface_thread)
+    finish_interface2_thread = finishInterfaceDetection("Onmyoji_Automation_Script/pics/05-T.png", click_list)
+    thread_list.append(finish_interface2_thread)
+    treasure_thread = treasureSignDetection(click_list)
+    thread_list.append(treasure_thread)
 
 
     for threads in thread_list:

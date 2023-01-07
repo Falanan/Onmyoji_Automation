@@ -9,9 +9,10 @@ import time
 
 
 class treasureSignDetection(threading.Thread):
-    def __init__(self, *args, **kwargs):
+    def __init__(self,click_list, *args, **kwargs):
         super(treasureSignDetection, self).__init__(*args, *kwargs)
         self.img_list = []
+        self.click_list = click_list
         self.methods = ['cv.TM_CCOEFF', 
                         'cv.TM_CCOEFF_NORMED', 
                         'cv.TM_CCORR',
@@ -336,3 +337,4 @@ class treasureSignDetection(threading.Thread):
                 pos = self.find_sign(self.img_list[0][1])
                 print("Treasure sign: ",pos, "Orig pos:", self.img_list[0][0])
                 del self.img_list[0]
+                self.click_list.append(pos)
