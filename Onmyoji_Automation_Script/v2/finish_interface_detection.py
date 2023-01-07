@@ -146,7 +146,7 @@ class finishInterfaceDetection(threading.Thread):
             else:
                 x_dict[item] = x_dict[item] + 1
 
-        # print("x_dict:", x_dict)
+        
         
         y_dict = {}
         for item in y_axis:
@@ -155,6 +155,8 @@ class finishInterfaceDetection(threading.Thread):
             else:
                 y_dict[item] = y_dict[item] + 1
 
+
+        # print("x_dict:", x_dict)
         # print("y_dict:", y_dict)
 
         # x_list = []
@@ -217,10 +219,10 @@ class finishInterfaceDetection(threading.Thread):
         if x_avg == 0 or y_avg == 0:
             return [0, 0, 1, 1]
 
-        if x_avg > img_shape[1] / 3 or y_avg > img_shape[0] / 3:
-            # x_avg = 0
-            # y_avg = 0
-            return [0, 0, 1, 1]
+        # if x_avg > img_shape[1] / 3 or y_avg > img_shape[0] / 3:
+        #     # x_avg = 0
+        #     # y_avg = 0
+        #     return [0, 0, 1, 1]
 
 
         wid, heig = self.get_relative_size(img_shape)
@@ -317,8 +319,12 @@ class finishInterfaceDetection(threading.Thread):
         while True:
             if len(self.img_list) != 0:
                 pos = self.find_sign(self.img_list[0][1])
-                print("Finish Interface: ",pos, "Orig pos:", self.img_list[0][0])
+                # print("Finish Interface: ",pos, "Orig pos:", self.img_list[0][0])
+                click_pos = 0
                 if pos[2] != 1 and pos[3] != 1:
-                    self.click_list.append(self.findClickPos(self.img_list[0][0], pos))
+                    # self.click_list.append(self.findClickPos(self.img_list[0][0], pos))
+                    click_pos = self.findClickPos(self.img_list[0][0], pos)
+                    self.click_list.append(click_pos)
                 # self.click_list.append(pos)
+                print("Finish Interface: ",pos, "Orig pos:", self.img_list[0][0], "Click pos:", click_pos)
                 del self.img_list[0]

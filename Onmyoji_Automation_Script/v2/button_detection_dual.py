@@ -21,9 +21,12 @@ class buttonDetectionDual(threading.Thread):
         self.click_list = click_list
         img_t = cv.imread("Onmyoji_Automation_Script/pics/03-T.jpg")
         img_t = cv.cvtColor(img_t, cv.COLOR_BGR2RGB)
-        img_t = cv.resize(img_t, [128, 128])
-        sq_temp_img, nlevels = self.make_square(img_t)
-        self.template_ds = self.gen_down_sample(sq_temp_img, nlevels-2) # generate down sampling for template
+        # img_t = cv.resize(img_t, [128, 128])
+        # sq_temp_img, nlevels = self.make_square(img_t)
+        # self.template_ds = self.gen_down_sample(sq_temp_img, nlevels-2) # generate down sampling for template
+        self.template_ds = self.gen_down_sample(img_t, 6)
+
+
         # self.gpt_list = []
         # for template in template_ds:
         #     sq_temp_img, nlevels = self.make_square(template)
@@ -176,7 +179,7 @@ class buttonDetectionDual(threading.Thread):
             else:
                 x_dict[item] = x_dict[item] + 1
 
-        # print("x_dict:", x_dict)
+        
         
         y_dict = {}
         for item in y_axis:
@@ -185,25 +188,26 @@ class buttonDetectionDual(threading.Thread):
             else:
                 y_dict[item] = y_dict[item] + 1
 
+        # print("x_dict:", x_dict)
         # print("y_dict:", y_dict)
    
         x_list = []
         for key in x_dict.keys():
             tot = 0
-            for i in range(key - 3, key + 3):
+            for i in range(key - 5, key + 5):
                 if i in x_dict:
                     tot = tot + x_dict[i]
-            if tot >= 3:
+            if tot >= 2:
                 x_list.append(key)
 
         y_list = []
         for key in y_dict.keys():
             tot = 0
             # print("testNode0:", key)
-            for i in range(key - 3, key + 3):
+            for i in range(key - 5, key + 5):
                 if i in y_dict:
                     tot = tot + y_dict[i]
-            if tot >= 3:
+            if tot >= 2:
                 y_list.append(key)
 
         # print("x_list:", x_list)
@@ -233,10 +237,10 @@ class buttonDetectionDual(threading.Thread):
             # y_avg = 0
             return[0, 0, 1, 1]
 
-        if x_avg < img_shape[1] / 2 or y_avg < img_shape[0] / 2:
-            # x_avg = 0
-            # y_avg = 0
-            return [0, 0, 1, 1]
+        # if x_avg < img_shape[1] / 2 or y_avg < img_shape[0] / 2:
+        #     # x_avg = 0
+        #     # y_avg = 0
+        #     return [0, 0, 1, 1]
 
         return [x_avg, y_avg, self.get_relative_size(img_shape), self.get_relative_size(img_shape)]
 
@@ -330,8 +334,12 @@ class buttonDetectionDual(threading.Thread):
         while True:
             if len(self.img_list) != 0:
                 pos = self.find_sign(self.img_list[0][1])
-                print("Challenge Button: ",pos, "Orig pos:", self.img_list[0][0])
+                # print("Challenge Button: ",pos, "Orig pos:", self.img_list[0][0])
+                click_pos = 0
                 if pos[2] != 1 and pos[3] != 1:
+                    click_pos = self.findClickPos(self.img_list[0][0], pos)
+                    # self.click_list.append(self.findClickPos(self.img_list[0][0], pos))
                     self.click_list.append(self.findClickPos(self.img_list[0][0], pos))
                 # self.click_list.append(pos)
+                print("Challenge Button: ",pos, "Orig pos:", self.img_list[0][0], "Click_pos:", click_pos)
                 del self.img_list[0]

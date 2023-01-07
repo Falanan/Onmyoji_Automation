@@ -355,8 +355,12 @@ class treasureSignDetection(threading.Thread):
         while True:
             if len(self.img_list) != 0:
                 pos = self.find_sign(self.img_list[0][1])
-                print("Treasure sign: ",pos, "Orig pos:", self.img_list[0][0])
+                click_pos = 0
+                # print("Treasure sign: ",pos, "Orig pos:", self.img_list[0][0])
                 if pos[2] != 1 and pos[3] != 1:
-                    self.click_list.append(self.findClickPos(self.img_list[0][0], pos))
+                    click_pos = self.findClickPos(self.img_list[0][0], pos)
+                    # self.click_list.append(self.findClickPos(self.img_list[0][0], pos))
+                    self.click_list.append(click_pos)
                 # self.click_list.append(pos)
+                print("Treasure sign: ",pos, "Orig pos:", self.img_list[0][0], "Click pos:", click_pos)
                 del self.img_list[0]
