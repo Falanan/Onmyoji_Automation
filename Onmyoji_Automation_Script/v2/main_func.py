@@ -141,12 +141,12 @@ if __name__ == "__main__":
 
     button_thread = buttonDetectionDual(click_list)
     thread_list.append(button_thread)
-    # finish_interface_thread = finishInterfaceDetection("Onmyoji_Automation_Script/pics/06-T.png", click_list)
-    # thread_list.append(finish_interface_thread)
-    # finish_interface2_thread = finishInterfaceDetection("Onmyoji_Automation_Script/pics/05-T.png", click_list)
-    # thread_list.append(finish_interface2_thread)
-    # treasure_thread = treasureSignDetection(click_list)
-    # thread_list.append(treasure_thread)
+    finish_interface_thread = finishInterfaceDetection("Onmyoji_Automation_Script/pics/06-T.png", click_list)
+    thread_list.append(finish_interface_thread)
+    finish_interface2_thread = finishInterfaceDetection("Onmyoji_Automation_Script/pics/05-T.png", click_list)
+    thread_list.append(finish_interface2_thread)
+    treasure_thread = treasureSignDetection(click_list)
+    thread_list.append(treasure_thread)
 
 
     for threads in thread_list:

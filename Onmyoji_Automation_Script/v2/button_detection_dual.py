@@ -21,7 +21,7 @@ class buttonDetectionDual(threading.Thread):
         self.click_list = click_list
         img_t = cv.imread("Onmyoji_Automation_Script/pics/03-T.jpg")
         img_t = cv.cvtColor(img_t, cv.COLOR_BGR2RGB)
-        # img_t = cv.resize(img_t, [128, 128])
+        img_t = cv.resize(img_t, [128, 128])
         # sq_temp_img, nlevels = self.make_square(img_t)
         # self.template_ds = self.gen_down_sample(sq_temp_img, nlevels-2) # generate down sampling for template
         self.template_ds = self.gen_down_sample(img_t, 6)
