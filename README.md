@@ -14,7 +14,7 @@
 
  ## Technology used in this script
 
- Computer Vishion, Numpy, Mathplotlib.pyplot
+ Computer Vishion, Numpy, Mathplotlib.pyplot, Python
 
 ## Running Environment
  
@@ -28,8 +28,10 @@ For Macos, I haven't tested about mouse moving part, and "win32api" library also
 
 #### Windows (AMD-64)
 
-- Windows 10 21H2, conda Python 3.9.13 environment. Intel i7-8550u, 16GB RAM, NVIDIA MX150
+- Windows 10 21H2, Conda Python 3.9.13 environment. Intel i7-8550u, 16GB RAM, NVIDIA MX150
 
 # Analisis of Technology Used
 In this section, I will detail the idea of developing the script.
 
+Firstly, I took a screenshot of the waiting interface for two peolpe as a team, then crop the challenge button.
+![](https://github.com/Falanan/Onmyoji_Automation/blob/main/Onmyoji_Automation_Script/pics/03-T.jpg?raw=true)
