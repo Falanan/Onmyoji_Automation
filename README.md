@@ -37,3 +37,6 @@ Firstly, I took a screenshot of the waiting interface for two peolpe as a team, 
 ![](https://github.com/Falanan/Onmyoji_Automation/blob/main/Onmyoji_Automation_Script/pics/03-T.jpg?raw=true)
 
 This picture will be used as a template later in the whole program. The shape of the cropped template image is (214, 187, 3).
+
+Then reshape the image to 128 x 128 as showen below.
+![](https://github.com/Falanan/Onmyoji_Automation/blob/main/readme_file_pics/128_cb.png?raw=true)
