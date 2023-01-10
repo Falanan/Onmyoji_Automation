@@ -1,5 +1,8 @@
 # Onmyoji_Automation
 # About me
- - Wenbo Zhang ([Falana](https://github.com/Falanan))
+ - Wenbo Zhang ([Falanan](https://github.com/Falanan))
+
+ I'm a 3rd year student studying currently studying in Ontario Tech University.
+
+ # Introduction
  
- I'm a 3rd year student studying currently studying in Ontario Tech University.s
