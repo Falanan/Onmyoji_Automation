@@ -22,14 +22,12 @@
 
 #### Macos (Apple silicon):
 
-For Macos, I haven't tested about mouse moving part, and win32api library also not working on Macos.
+For Macos, I haven't tested about mouse moving part, and win32api library also not working on Macos. I only using Mac environment for developing the computer vision and optimizing algorithm.
 
-I only using Mac environment for developing the computer vision and optimizing algorithm.
-
-Macos 12.6, Conda python 3.7.13 environment, 
+- Macos Monterey 12.6, Conda python 3.7.13 environment
 
 #### Windows (AMD-64)
 
-Windows 10 21H2, conda Python 3.9.13 environment
+- Windows 10 21H2, conda Python 3.9.13 environment
 
 # Analisis of this script
