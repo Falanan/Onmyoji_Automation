@@ -35,5 +35,5 @@ In this section, I will detail the idea of developing the script.
 ## Part 1: Challenge button detection
 Firstly, I took a screenshot of the waiting interface for two peolpe as a team, then crop the challenge button.
 ![](https://github.com/Falanan/Onmyoji_Automation/blob/main/Onmyoji_Automation_Script/pics/03-T.jpg?raw=true)
-This picture will be used as a template later in the whole program.
-The shape of the cropped template image is (214, 187, 3).
+
+This picture will be used as a template later in the whole program. The shape of the cropped template image is (214, 187, 3).
