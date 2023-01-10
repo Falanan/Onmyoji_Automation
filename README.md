@@ -39,5 +39,6 @@ Firstly, I took a screenshot of the waiting interface for two peolpe as a team, 
 This picture will be used as a template later in the whole program. The shape of the cropped template image is (214, 187, 3).
 
 Then reshape the image to 128 x 128 as showen below.
+<img src = "https://github.com/Falanan/Onmyoji_Automation/blob/main/readme_file_pics/128_cb.png?raw=true" width="128px">
 
-![](https://github.com/Falanan/Onmyoji_Automation/blob/main/readme_file_pics/128_cb.png?raw=true)
+<!-- ![](https://github.com/Falanan/Onmyoji_Automation/blob/main/readme_file_pics/128_cb.png?raw=true) -->
