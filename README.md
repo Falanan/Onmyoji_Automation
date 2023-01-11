@@ -48,4 +48,6 @@ The reason resize the image to 128 x 128 size is later in the process, to make s
 
 Down sampled images for button template.
 
-Then generate gaussian pyramids for each different resulation templates.
+Then generate gaussian pyramids for each different resolution templates. For demostrition purpose, I only make the gaussian pyramid for 128 x 128 resolution.
+
+<img src="https://github.com/Falanan/Onmyoji_Automation/blob/main/readme_file_pics/gp_128.png?raw=true">
