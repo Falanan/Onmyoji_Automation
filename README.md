@@ -46,3 +46,6 @@ The reason resize the image to 128 x 128 size is later in the process, to make s
 
 <img src = "https://github.com/Falanan/Onmyoji_Automation/blob/main/readme_file_pics/ds.png">
 
+Down sampled images for button template.
+
+Then generate gaussian pyramids for each different resulation templates.
