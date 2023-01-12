@@ -2,7 +2,7 @@
 # About me
  - Wenbo Zhang ([Falanan](https://github.com/Falanan))
 
- I'm a 3rd year student currently studying in Ontario Tech University.
+ I'm a 3rd year student currently studying computer science in Ontario Tech University.
 
  # Introduction
 
@@ -31,8 +31,10 @@ For Macos, I haven't tested about mouse moving part, and "win32api" library also
 - Windows 10 21H2, Conda Python 3.9.13 environment. Intel i7-8550u, 16GB RAM, NVIDIA MX150
 
 # Analisis of Technology Used
-In this section, I will detail the idea of developing the script.
+In this section, I will detail the idea of developing the script. Some of the steps might be useless and I'll keep improving it.
 ## Part 1: Challenge button detection
+
+### Button template processes
 Firstly, I took a screenshot of the waiting interface for two peolpe as a team, then crop the challenge button.
 ![](https://github.com/Falanan/Onmyoji_Automation/blob/main/Onmyoji_Automation_Script/pics/03-T.jpg?raw=true)
 
@@ -48,6 +50,10 @@ The reason resize the image to 128 x 128 size is later in the process, to make s
 
 Down sampled images for button template.
 
-Then generate gaussian pyramids for each different resolution templates. For demostrition purpose, I only make the gaussian pyramid for 128 x 128 resolution.
+Then generate gaussian pyramids for each different resolution templates. For demonstration purpose, I only make the gaussian pyramid for 128 x 128 resolution.
 
 <img src="https://github.com/Falanan/Onmyoji_Automation/blob/main/readme_file_pics/gp_128.png?raw=true">
+
+### Image processes
+
+Image procedures are pretty the same as tamplate processing.
