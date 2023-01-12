@@ -57,3 +57,7 @@ Then generate gaussian pyramids for each different resolution templates. For dem
 ### Image processes
 
 Image procedures are pretty the same as tamplate processing.
+
+Firstly, generate gaussian pyramid for the image, as shown below:
+
+<img src="https://github.com/Falanan/Onmyoji_Automation/blob/main/readme_file_pics/gpI.png?raw=true">
