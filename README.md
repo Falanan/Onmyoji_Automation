@@ -1,12 +1,14 @@
 # Onmyoji_Automation
-# About me
- - Wenbo Zhang ([Falanan](https://github.com/Falanan))
+# About me (UPDATED Jan 2023)
+ - Wenbo Zhang ([Wenbo Zhang]())
 
- I'm a 3rd year student currently studying computer science in Ontario Tech University.
+ I'm a 3rd year student currently studying computer science in Ontario Tech University. I'm interested in Computer Vision, Machine Learning, AI and NLP. Currently I'm a Self-Made Web Application developer and Site-Manager (Webpage current under development and not available now).
+
+
 
  # Introduction
 
- ## Reasons for developing scripts
+ ## Reasons for developing this script
 
  After a semester of computer vision torturing, I suddenly started to find computer vision actually pretty interesting, and this time it was the "化四季" activity. So I thought, Why don't I develop a script that can automate the completion of the copy to get the scrolls? So I can easily to get top 10 position on the tanking to get 60 pieces of "Shiki".
 
@@ -20,9 +22,9 @@
  
 ### Tested good on:
 
-#### Macos (Apple silicon):
+#### MacOS (Apple silicon):
 
-For Macos, I haven't tested about mouse moving part, and "win32api" library also not working on Macos. I only using Mac environment for developing the computer vision and optimizing algorithm.
+For Macos, I haven't tested about mouse moving part, and "win32api" library also not working on Macos. I only use Mac environment for developing the computer vision part and optimizing algorithm.
 
 - Macos Monterey 12.6, Conda python 3.7.13 environment. 10-cores M1 Pro chip with 32GB RAM
 
@@ -61,3 +63,5 @@ Image procedures are pretty the same as tamplate processing.
 Firstly, generate gaussian pyramid for the image, as shown below:
 
 <img src="https://github.com/Falanan/Onmyoji_Automation/blob/main/readme_file_pics/gpI.png?raw=true">
+
+But some of them are useless, such as most of the images of second row.
