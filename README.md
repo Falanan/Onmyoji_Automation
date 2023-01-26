@@ -64,4 +64,8 @@ Firstly, generate gaussian pyramid for the image, as shown below:
 
 <img src="https://github.com/Falanan/Onmyoji_Automation/blob/main/readme_file_pics/gpI.png?raw=true">
 
-But some of them are useless, such as most of the images in second row.
+But some of the picture are useless, such as most of the images in second row.
+
+Then use "matchTemplate" method in openCV, feed every resolution tamplate and original image, find the highest match. Store the highest match box into a result list. Using the examples mentioned in this article, There are 5 different down sampled tamplate, then each down sampled image has another 5 gaussian pyramid images. So, in total, there are almost 25 tamplates (approxmate, not counted). From this it is clear that, there will be 25 highest match position in the result list.
+
+The reason using different resulation tamplates is: If only use fixed resulation tamplate, the highest match position probably won't be the right position. Just as shown below: 
