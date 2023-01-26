@@ -64,4 +64,4 @@ Firstly, generate gaussian pyramid for the image, as shown below:
 
 <img src="https://github.com/Falanan/Onmyoji_Automation/blob/main/readme_file_pics/gpI.png?raw=true">
 
-But some of them are useless, such as most of the images of second row.
+But some of them are useless, such as most of the images in second row.
