@@ -70,4 +70,7 @@ Then use "matchTemplate" method in openCV, feed every resolution tamplate and or
 
 The reason using different resulation tamplates is: If only use fixed resulation tamplate, the highest match position probably won't be the right position. Especially when the image resolution is too small, the highest match may not be in the right place. Also, the highest matching position may have some shift.
 
-<img src="">
+Example match plot: 
+
+<img src="https://github.com/Falanan/Onmyoji_Automation/blob/main/readme_file_pics/match_plot.png?raw=true">
+
