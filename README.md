@@ -1,6 +1,6 @@
 # Onmyoji_Automation
 # About me (UPDATED Jan 2023)
- - Wenbo Zhang ([Wenbo Zhang]())
+ - Wenbo Zhang ([Wenbo Zhang](https://www.linkedin.com/in/wenbo-zhang-falana/))
 
  I'm a 3rd year student currently studying computer science in Ontario Tech University. I'm interested in Computer Vision, Machine Learning, AI and NLP. Currently I'm a Self-Made Web Application developer and Site-Manager (Webpage current under development and not available now).
 
@@ -27,6 +27,7 @@
 For Macos, I haven't tested about mouse moving part, and "win32api" library also not working on Macos. I only use Mac environment for developing the computer vision part and optimizing algorithm.
 
 - Macos Monterey 12.6, Conda python 3.7.13 environment. 10-cores M1 Pro chip with 32GB RAM
+- Macos Monterey 12.6, Conda python 3.8.16 environment. 10-cores M1 Pro chip with 32GB RAM
 
 #### Windows (AMD-64)
 
@@ -34,9 +35,9 @@ For Macos, I haven't tested about mouse moving part, and "win32api" library also
 
 # Analisis of Technology Used
 In this section, I will detail the idea of developing the script. Some of the steps might be useless and I'll keep improving it.
-## Part 1: Challenge button detection
+## Part 1: Interface detection
 
-### Button template processes
+### Template processes
 Firstly, I took a screenshot of the waiting interface for two peolpe as a team, then crop the challenge button.
 ![](https://github.com/Falanan/Onmyoji_Automation/blob/main/Onmyoji_Automation_Script/pics/03-T.jpg?raw=true)
 
@@ -56,7 +57,7 @@ Then generate gaussian pyramids for each different resolution templates. For dem
 
 <img src="https://github.com/Falanan/Onmyoji_Automation/blob/main/readme_file_pics/gp_128.png?raw=true">
 
-### Image processes
+### Original image processes
 
 Image procedures are pretty the same as tamplate processing.
 
@@ -74,3 +75,8 @@ Example match plot:
 
 <img src="https://github.com/Falanan/Onmyoji_Automation/blob/main/readme_file_pics/match_plot.png?raw=true">
 
+The detection for the treasure screen and the completion screen is along the same lines as the button detection.
+
+## Part 2: Handling of outliers in image detection.
+
+The idea of handling outliers is data clustering(DBSCAN). 
