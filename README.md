@@ -1,5 +1,9 @@
 # Onmyoji_Automation
-# About me (UPDATED Jan 2023)
+# Reminder
+
+Now, I'm rewriting this script in c++, Here is the link: <a href="https://github.com/Falanan/CSCI4060U_Lab/tree/main/Final_Proj">CSCI4060 final project</a>
+
+# About me (UPDATED March 2023)
  - Wenbo Zhang ([Wenbo Zhang](https://www.linkedin.com/in/wenbo-zhang-falana/))
 
  I'm a 3rd year student currently studying computer science in Ontario Tech University. I'm interested in Computer Vision, Machine Learning, AI and NLP. Currently I'm a Self-Made Web Application developer and Site-Manager (Webpage current under development and not available now).
@@ -80,3 +84,4 @@ The detection for the treasure screen and the completion screen is along the sam
 ## Part 2: Handling of outliers in image detection.
 
 The idea of handling outliers is data clustering(DBSCAN). 
+
